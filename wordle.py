@@ -60,6 +60,15 @@ def rysuj_klawiature():
     #trzeba dodać kafelek potwierdzający wpisanie hasła i wywołania sprawdzenia czy jest ono poprawne
         
 def losuj_haslo(ile):
+    wyborhasla = int(input("Jaką długość słów wybierasz? "))
+    if wyborhasla == 4:
+        print(random.choice(open('4litery.txt', 'r').readlines()).strip())
+    elif wyborhasla == 5:
+        print(random.choice(open('5liter.txt', 'r').readlines()).strip())
+    elif wyborhasla == 6:
+        print(random.choice(open('6liter.txt', 'r').readlines()).strip())
+    else:
+        print("Niestety nie mamy do wyboru słów o wybranej przez ciebie długości :(")
     #jeśli robimy dodatek: w zależności od liczby liter (ile) będziemy wyierać hasło z różnych zbiórów słow (różnica polega na różnej długości)
     #funkcja powinna zwracać wybrane hasło, chyba najlepiej w stringu
     
