@@ -151,10 +151,22 @@ def wpisz_znak(wyborhasla,wpisane,poz,n):
     return poz,wpisane
 
 def komunikat_wygrana(liczba_prob):
-#Julia
+    komunikat_tlo = pygame.Surface([700,100])
+    komunikat_tlo.fill((152, 251, 152))
+
+    tekst_wygrana = litera.render("Gratulacje, wygrałeś w "+str(int(liczba_prob))+" próbach!", True, color_light)
+    komunikat_tlo.blit(tekst_wygrana,(20,15))
+    okno.blit(komunikat_tlo, (50,100))
+    pygame.display.update()
 
 def komunikat_przegrana(haslo):
-#julia
+    komunikat_tlo = pygame.Surface([700,100])
+    komunikat_tlo.fill((207,25,0))
+
+    tekst_przegrana = litera.render("Przegrałeś! Hasło to: "+haslo, True, color_light)
+    komunikat_tlo.blit(tekst_przegrana,(20,15))
+    okno.blit(komunikat_tlo, (50,100))
+    pygame.display.update()
 
 
 okno.fill(tlo)
