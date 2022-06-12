@@ -10,6 +10,31 @@ okno = pygame.display.set_mode((800,650),0,32)
 tlo = (0,0,0)
 pygame.display.set_caption('WORDLE')
 
+okno.fill((186, 201, 217))
+
+czarny=(0,0,0)
+
+czcionka = pygame.font.SysFont("arial", 70)
+tekst = czcionka.render("Jaką długość słowa wybierasz?", True, czarny)
+pozycja = tekst.get_rect(center=(400, 125))
+okno.blit(tekst, pozycja)
+
+color = (255,255,255)
+
+color_light = (170,170,170)
+
+color_dark = (100,100,100)
+
+width = okno.get_width()
+
+height = okno.get_height()
+
+smallfont = pygame.font.SysFont('arial',60)
+
+przycisk4 = smallfont.render('4' , True , color)
+przycisk5 = smallfont.render('5' , True , color)
+przycisk6 = smallfont.render('6' , True, color)
+
 #ustawienia kafelka który będzie zakrywał usuwane litery
 kafelek_tlo2 = pygame.Surface([50,50])
 kafelek_tlo2.fill((0,0,0))
@@ -156,6 +181,14 @@ def komunikat_wygrana(liczba_prob):
 def komunikat_przegrana(haslo):
 #julia
 
+def losuj_haslo(wyborhasla):
+    if wyborhasla == "4":
+        return random.choice(open('4litery.txt', 'r').readlines()).strip()
+    elif wyborhasla == "5":
+        return random.choice(open('5liter.txt', 'r').readlines()).strip()
+    elif wyborhasla == "6":
+        return random.choice(open('6liter.txt', 'r').readlines()).strip()
+
 
 okno.fill(tlo)
 #Weronika - wyświetlenie pytania o długość hasła + pętla 'while True' wyboru długości hasła
@@ -168,6 +201,52 @@ rysuj_klawiature()
 haslo=losuj_haslo(wyborhasla)
 haslo=haslo.upper()
 pygame.display.update()
+while True:
+
+    for event in pygame.event.get():
+
+        if event.type == pygame.QUIT:
+            pygame.quit()
+
+        if event.type == pygame.MOUSEBUTTONDOWN:
+
+            if 200 <= mouse[0] <= 250 and 350 <= mouse[1] <= 410:
+                wyborhasla == "4"
+                break
+            if 400 <= mouse[0] <= 450 and 350 <= mouse[1] <= 410:
+                wyborhasla == "5"
+                break
+            if 550 <= mouse[0] <= 600 and 350 <= mouse[1] <= 410:
+                wyborhasla == "6"
+                break
+
+    mouse = pygame.mouse.get_pos()
+
+    if 200 <= mouse[0] <= 250 and 350 <= mouse[1] <= 410:
+        pygame.draw.rect(okno,color_light,[200,350,60,60])
+
+    else:
+        pygame.draw.rect(okno,color_dark,[200,350,60,60])
+
+    if 375 <= mouse[0] <= 425 and 350 <= mouse[1] <= 410:
+        pygame.draw.rect(okno,color_light,[375,350,60,60])
+
+    else:
+        pygame.draw.rect(okno,color_dark,[375,350,60,60])
+
+    if 550 <= mouse[0] <= 600 and 350 <= mouse[1] <= 410:
+        pygame.draw.rect(okno,color_light,[550,350,60,60])
+
+    else:
+        pygame.draw.rect(okno,color_dark,[550,350,60,60])
+
+    okno.blit(przycisk4 , (213,345))
+    okno.blit(przycisk5 , (388,345))
+    okno.blit(przycisk6 , (563,345))
+    if wyborhasla:
+        break
+    pygame.display.update()
+    
 
 while True:
     for event in pygame.event.get():
