@@ -10,23 +10,41 @@ okno = pygame.display.set_mode((800,650),0,32)
 tlo = (0,0,0)
 pygame.display.set_caption('WORDLE')
 
-#ustawienia kafelka klawiatury - rozmiar, kolor
-kafelek_tlo = pygame.Surface([50,50])
-kafelek_tlo.fill((100,100,100))
-
 #ustawienia kafelka który będzie zakrywał usuwane litery
 kafelek_tlo2 = pygame.Surface([50,50])
 kafelek_tlo2.fill((0,0,0))
 
-#ustawienia czcionki liter na kafelkach, lista alfabetu w kolejności qwerty, która pomoże stworzyć klawiaturę
+#ustawienia czcionkek liter na kafelkach,komunikatów
 litera = pygame.font.SysFont('arial',40,True,False)
-alf = ['Q','W','E','R','T','Y','U','I','O','P','A','S','D','F','G','H','J','K','L','Z','X','C','V','B','N','M']
+czcionka = pygame.font.SysFont("arial", 60)
+smallfont = pygame.font.SysFont('arial',60)
+
+#ustawienie kolorów
+color = (255,255,255)
+color_light = (170,170,170)
+color_dark = (100,100,100)
 
 #w liście kafelki będą zapisane kolejne kafelki klawiatury
 kafelki = []
 kafelki_poz = []
 haslo_poz1 = []
 haslo_poz2 = []
+#lista alfabetu w kolejności qwerty, która pomoże stworzyć klawiaturę
+alf = ['Q','W','E','R','T','Y','U','I','O','P','A','S','D','F','G','H','J','K','L','Z','X','C','V','B','N','M']
+
+#zmienne potrzebne w grze:
+#maksymalna l. prób, pozycja aktualnie wpisywanej litery
+#wyborhasla - dlugość hasła
+#wpisane - wpisane słowo do sprawdzenia
+#wygrana - informuje czy gracz wygrał czy nie
+proby_max=0
+pozycja_wpisz=0
+wyborhasla=0
+wygrana=0
+wpisane=[]
+
+#przyciski do wyboru długości słów i liczby prób - Weronika
+
 
 
 #funkcja, która rysuje miejsce na wpisywanie hasła, zależne od 2 danych dłguość hasła = ile; liczba prób = proby
@@ -48,7 +66,6 @@ def rysuj_klawiature():
         kafelki[i].blit(kafelek,(10,4))
         okno.blit(kafelki[i], (140+5*i + (i * 50),465))
         kafelki_poz.append([140+5*i + (i * 50),465])
-        del kafelek_tlo
     for i in range(9):
         kafelek_tlo = pygame.Surface([50, 50])
         kafelek_tlo.fill((100, 100, 100))
@@ -66,7 +83,6 @@ def rysuj_klawiature():
         kafelki[19+i].blit(kafelek, (10, 4))
         okno.blit(kafelki[19+i], (200 + 5 * i + (i * 50), 575))
         kafelki_poz.append([200 + 5 * i + (i * 50), 575])
-        del kafelek_tlo
     #kafelek do usuwania błędnie wprowadzonych liter
     kafelek_tlo = pygame.Surface([50, 50])
     kafelek_tlo.fill((100, 100, 100))
@@ -75,7 +91,6 @@ def rysuj_klawiature():
     kafelki[26].blit(kafelek, (5, 10))
     okno.blit(kafelki[26], (200 + 5 * 7 + (7 * 50), 575))
     kafelki_poz.append([200 + 5 * 7 + (7 * 50), 575])
-    del kafelek_tlo
     #kafelek do sprawdzenia hasła
     kafelek_tlo = pygame.Surface([50, 50])
     kafelek_tlo.fill((100, 100, 100))
@@ -109,8 +124,12 @@ def szukaj_znak(poz1,poz2):
                     if j == i:
                         return i
                     
+def sprawdz(wpisane,haslo,poz):
+#Kaja - masz podane słowo do sprawdzenia w postaci listy(wpisane),haslo poprawne(haslo)
+#i numer kwadracika (miejsca do wpisania hasła) na której "jest kursor"
+
 #funkcja wpisuje znak w okienko wyboru hasła lub usuwa znak albo wywołuje funkcję sprawdzenia hasła           
-def wpisz_znak(wpisane,poz,n):
+def wpisz_znak(wyborhasla,wpisane,poz,n):
     if n == 26:
         if wpisane:
             wpisane.pop()
@@ -118,25 +137,37 @@ def wpisz_znak(wpisane,poz,n):
             pygame.draw.rect(okno, (255, 255, 255), pygame.Rect(haslo_poz2[poz-1], (50, 50)), 1)
             poz-=1
     elif n == 27:
-        if len(wpisane)==5:
-            #sprawdz()
+        if len(wpisane)==wyborhasla:
+            global wygrana
+            #wygrana=sprawdz(wpisane,haslo,poz)
             wpisane = []
             return poz, wpisane
     else:
-        if len(wpisane)<5:
+        if len(wpisane)<wyborhasla:
             wpisane.append(alf[n])
             lit = litera.render(alf[n], True, (255, 255, 255), None)
             okno.blit(lit,haslo_poz1[poz])
             poz+=1
     return poz,wpisane
 
+def komunikat_wygrana(liczba_prob):
+#Julia
+
+def komunikat_przegrana(haslo):
+#julia
+
+
 okno.fill(tlo)
-dlugosc=5 #domyślna długość słowa
-kratki=25 #domyślna liczba kratek do wpisania hasła
-rysuj_haslo(dlugosc,int(kratki/dlugosc)) #parametry to długość hasła i liczba prób (liczba kratek/długosc hasła)
+#Weronika - wyświetlenie pytania o długość hasła + pętla 'while True' wyboru długości hasła
+
+okno.fill(tlo)
+#Marek - wyświetlenie pytania o liczbę prób + pętla while True wyboru liczby prób
+
+rysuj_haslo(wyborhasla,int(proby_max/wyborhasla)) #parametry to długość hasła i liczba prób (liczba kratek/długosc hasła)
 rysuj_klawiature()
+haslo=losuj_haslo(wyborhasla)
+haslo=haslo.upper()
 pygame.display.update()
-pozycja_wpisz=0
 
 while True:
     for event in pygame.event.get():
@@ -149,3 +180,12 @@ while True:
                 if znak:
                     pozycja_wpisz,wpisane=wpisz_znak(wpisane,pozycja_wpisz,znak)
                     pygame.display.update()
+                if wygrana:
+                    komunikat_wygrana(pozycja_wpisz/wyborhasla)
+                    time.sleep(4)
+                if wygrana == 0 and pozycja_wpisz == proby_max and not(wpisane):
+                    komunikat_przegrana(haslo)
+                    time.sleep(4)
+        if wygrana or pozycja_wpisz == proby_max and not(wpisane):
+            pygame.quit()
+     pygame.display.update()
