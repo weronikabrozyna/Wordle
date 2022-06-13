@@ -155,7 +155,7 @@ def wpisz_znak(wyborhasla,wpisane,poz,n):
     elif n == 27:
         if len(wpisane)==wyborhasla:
             global wygrana
-            #wygrana=sprawdz(wpisane,haslo,poz)
+            wygrana=sprawdz(wpisane,haslo,poz)
             wpisane = []
             return poz, wpisane
     else:
