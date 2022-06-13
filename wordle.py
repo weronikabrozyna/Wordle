@@ -124,9 +124,25 @@ def szukaj_znak(poz1,poz2):
                     if j == i:
                         return i
                     
-def sprawdz(wpisane,haslo,poz):
-#Kaja - masz podane słowo do sprawdzenia w postaci listy(wpisane),haslo poprawne(haslo)
-#i numer kwadracika (miejsca do wpisania hasła) na której "jest kursor"
+def sprawdz(wpisane,slowo,poz):
+    dobrze = 0
+    baza={z:slowo.count(z) for z in slowo}
+    kolory=[(255, 0, 0) for _ in range(len(wpisane))]
+    for (i,z) in enumerate(wpisane):
+        if wpisane[i]==slowo[i]:
+            kolory[i]=(0, 255, 0)
+            dobrze += 1
+            baza[z]-=1
+    for (i,z) in enumerate(wpisane):
+        if kolory[i] != (0, 255 , 0) and wpisane[i] in slowo and baza[z]>0:
+            kolory[i] = (255, 255, 0)
+            baza[z]-=1
+    for i in range(len(wpisane)):
+        pygame.draw.rect(okno, kolory[i], pygame.Rect(haslo_poz2[poz - len(wpisane) + i], (50, 50)), 3)
+    if dobrze == len(haslo):
+        return 1
+    else:
+        return 0
 
 #funkcja wpisuje znak w okienko wyboru hasła lub usuwa znak albo wywołuje funkcję sprawdzenia hasła           
 def wpisz_znak(wyborhasla,wpisane,poz,n):
