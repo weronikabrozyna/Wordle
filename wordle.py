@@ -129,11 +129,11 @@ def rysuj_klawiature():
         
 def losuj_haslo(wyborhasla):
     if wyborhasla == 4:
-        return random.choice(open('4litery.txt', 'r').readlines()).strip())
+        return random.choice(open('4litery.txt', 'r').readlines()).strip()
     elif wyborhasla == 5:
-        return random.choice(open('5liter.txt', 'r').readlines()).strip())
+        return random.choice(open('5liter.txt', 'r').readlines()).strip()
     elif wyborhasla == 6:
-        return random.choice(open('6liter.txt', 'r').readlines()).strip())
+        return random.choice(open('6liter.txt', 'r').readlines()).strip()
 
     
 #na podstawie współrzędnych kliknięcia myszki funkcja szuka numeru, który jest indeksem w liście alf
